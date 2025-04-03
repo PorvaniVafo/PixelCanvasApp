@@ -8,16 +8,25 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <ComboBox x:Name="ColorPicker" SelectionChanged="ColorPicker_SelectionChanged" Width="200" Margin="10">
-                <ComboBoxItem Content="Black" IsSelected="True"/>
-                <ComboBoxItem Content="Red"/>
-                <ComboBoxItem Content="Blue"/>
-                <ComboBoxItem Content="Green"/>
-                <ComboBoxItem Content="Yellow"/>
-                <ComboBoxItem Content="Eraser"/>
-            </ComboBox>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <ComboBox x:Name="ColorPicker" SelectionChanged="ColorPicker_SelectionChanged" Width="150">
+                    <ComboBoxItem Content="Black" IsSelected="True"/>
+                    <ComboBoxItem Content="Red"/>
+                    <ComboBoxItem Content="Blue"/>
+                    <ComboBoxItem Content="Green"/>
+                    <ComboBoxItem Content="Yellow"/>
+                </ComboBox>
+
+                <ComboBox x:Name="ShapePicker" SelectionChanged="ShapePicker_SelectionChanged" Width="150" Margin="10,0,0,0">
+                    <ComboBoxItem Content="Square" IsSelected="True"/>
+                    <ComboBoxItem Content="Circle"/>
+                    <ComboBoxItem Content="Rectangle"/>
+                    <ComboBoxItem Content="Eraser"/>
+                </ComboBox>
+            </StackPanel>
+
             <Canvas x:Name="DrawingCanvas" Background="White" MouseDown="Canvas_MouseDown"
-                    MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" Height="400" Width="400"/>
+                    MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" Height="500" Width="500"/>
         </StackPanel>
     </Grid>
 </Window>
