@@ -7,6 +7,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <StackPanel Orientation="Vertical">
+            <ComboBox x:Name="ColorPicker" SelectionChanged="ColorPicker_SelectionChanged" Width="200" Margin="10">
+                <ComboBoxItem Content="Black" IsSelected="True"/>
+                <ComboBoxItem Content="Red"/>
+                <ComboBoxItem Content="Blue"/>
+                <ComboBoxItem Content="Green"/>
+                <ComboBoxItem Content="Yellow"/>
+                <ComboBoxItem Content="Eraser"/>
+            </ComboBox>
+            <Canvas x:Name="DrawingCanvas" Background="White" MouseDown="Canvas_MouseDown"
+                    MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp" Height="400" Width="400"/>
+        </StackPanel>
     </Grid>
 </Window>
