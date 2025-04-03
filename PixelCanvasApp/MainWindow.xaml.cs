@@ -10,6 +10,7 @@ namespace PixelCanvasApp
     {
         private readonly int _pixelSize = 10;
         private SolidColorBrush _currentBrush = Brushes.Black; // Текущий цвет
+        private string _currentShape = "Square"; // Форма по умолчанию
         private bool isDrawing = false;
 
         public MainWindow()
@@ -20,14 +21,14 @@ namespace PixelCanvasApp
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             isDrawing = true;
-            DrawPixel(e.GetPosition(DrawingCanvas));
+            DrawShape(e.GetPosition(DrawingCanvas));
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (isDrawing)
             {
-                DrawPixel(e.GetPosition(DrawingCanvas));
+                DrawShape(e.GetPosition(DrawingCanvas));
             }
         }
 
@@ -36,37 +37,44 @@ namespace PixelCanvasApp
             isDrawing = false;
         }
 
-        private void DrawPixel(Point position)
+        private void DrawShape(Point position)
         {
             int x = (int)(position.X / _pixelSize) * _pixelSize;
             int y = (int)(position.Y / _pixelSize) * _pixelSize;
 
-            Rectangle pixel = new Rectangle
-            {
-                Width = _pixelSize,
-                Height = _pixelSize,
-                Fill = _currentBrush
-            };
+            Shape shape;
 
-            Canvas.SetLeft(pixel, x);
-            Canvas.SetTop(pixel, y);
-
-            // Если включен "ластик", удаляем пиксели на этой позиции
-            if (_currentBrush == Brushes.White)
+            switch (_currentShape)
             {
-                foreach (UIElement child in DrawingCanvas.Children)
-                {
-                    if (child is Rectangle rect &&
-                        Canvas.GetLeft(rect) == x && Canvas.GetTop(rect) == y)
-                    {
-                        DrawingCanvas.Children.Remove(child);
-                        break;
-                    }
-                }
+                case "Circle":
+                    shape = new Ellipse { Width = _pixelSize, Height = _pixelSize, Fill = _currentBrush };
+                    break;
+                case "Rectangle":
+                    shape = new Rectangle { Width = _pixelSize * 2, Height = _pixelSize, Fill = _currentBrush };
+                    break;
+                case "Eraser":
+                    RemoveShapeAt(x, y);
+                    return;
+                default:
+                    shape = new Rectangle { Width = _pixelSize, Height = _pixelSize, Fill = _currentBrush };
+                    break;
             }
-            else
+
+            Canvas.SetLeft(shape, x);
+            Canvas.SetTop(shape, y);
+            DrawingCanvas.Children.Add(shape);
+        }
+
+        private void RemoveShapeAt(int x, int y)
+        {
+            foreach (UIElement child in DrawingCanvas.Children)
             {
-                DrawingCanvas.Children.Add(pixel);
+                if (child is Shape shape &&
+                    Canvas.GetLeft(shape) == x && Canvas.GetTop(shape) == y)
+                {
+                    DrawingCanvas.Children.Remove(child);
+                    break;
+                }
             }
         }
 
@@ -80,9 +88,13 @@ namespace PixelCanvasApp
                 "Blue" => Brushes.Blue,
                 "Green" => Brushes.Green,
                 "Yellow" => Brushes.Yellow,
-                "Eraser" => Brushes.White, // Ластик — белый цвет
                 _ => Brushes.Black
             };
+        }
+
+        private void ShapePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _currentShape = (ShapePicker.SelectedItem as ComboBoxItem)?.Content.ToString();
         }
     }
 }
