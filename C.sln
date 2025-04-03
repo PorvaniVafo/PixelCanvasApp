@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelCanvasApp", "PixelCanvasApp\PixelCanvasApp.csproj", "{83E83BF2-1ED9-4CDC-AFE8-B65312BF1A36}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83E83BF2-1ED9-4CDC-AFE8-B65312BF1A36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83E83BF2-1ED9-4CDC-AFE8-B65312BF1A36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83E83BF2-1ED9-4CDC-AFE8-B65312BF1A36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83E83BF2-1ED9-4CDC-AFE8-B65312BF1A36}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DF22FF59-EF5E-4E7A-AC6D-C76A6884530D}
+	EndGlobalSection
+EndGlobal
