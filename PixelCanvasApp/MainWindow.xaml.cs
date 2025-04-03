@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -9,38 +8,32 @@ namespace PixelCanvasApp
 {
     public partial class MainWindow : Window
     {
-        private Canvas _canvas;
         private readonly int _pixelSize = 10;
-        private readonly SolidColorBrush _brush = Brushes.Black;
+        private SolidColorBrush _currentBrush = Brushes.Black; // Текущий цвет
+        private bool isDrawing = false;
 
         public MainWindow()
         {
             InitializeComponent();
-            SetupCanvas();
-        }
-
-        private void SetupCanvas()
-        {
-            _canvas = new Canvas
-            {
-                Background = Brushes.White
-            };
-            Content = _canvas;
-            _canvas.MouseDown += Canvas_MouseDown;
-            _canvas.MouseMove += Canvas_MouseMove;
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            DrawPixel(e.GetPosition(_canvas));
+            isDrawing = true;
+            DrawPixel(e.GetPosition(DrawingCanvas));
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (isDrawing)
             {
-                DrawPixel(e.GetPosition(_canvas));
+                DrawPixel(e.GetPosition(DrawingCanvas));
             }
+        }
+
+        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            isDrawing = false;
         }
 
         private void DrawPixel(Point position)
@@ -52,12 +45,44 @@ namespace PixelCanvasApp
             {
                 Width = _pixelSize,
                 Height = _pixelSize,
-                Fill = _brush
+                Fill = _currentBrush
             };
 
             Canvas.SetLeft(pixel, x);
             Canvas.SetTop(pixel, y);
-            _canvas.Children.Add(pixel);
+
+            // Если включен "ластик", удаляем пиксели на этой позиции
+            if (_currentBrush == Brushes.White)
+            {
+                foreach (UIElement child in DrawingCanvas.Children)
+                {
+                    if (child is Rectangle rect &&
+                        Canvas.GetLeft(rect) == x && Canvas.GetTop(rect) == y)
+                    {
+                        DrawingCanvas.Children.Remove(child);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                DrawingCanvas.Children.Add(pixel);
+            }
+        }
+
+        private void ColorPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedColor = (ColorPicker.SelectedItem as ComboBoxItem)?.Content.ToString();
+
+            _currentBrush = selectedColor switch
+            {
+                "Red" => Brushes.Red,
+                "Blue" => Brushes.Blue,
+                "Green" => Brushes.Green,
+                "Yellow" => Brushes.Yellow,
+                "Eraser" => Brushes.White, // Ластик — белый цвет
+                _ => Brushes.Black
+            };
         }
     }
 }
