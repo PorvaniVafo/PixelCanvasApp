@@ -38,6 +38,3 @@ PixelCanvasApp/
 ├── MainWindow.xaml.cs      // Logic for drawing and input handling
 ├── AssemblyInfo.cs
 └── ...
-
-# License
-This project is for learning and demonstration purposes.
